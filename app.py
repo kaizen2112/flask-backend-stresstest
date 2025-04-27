@@ -17,7 +17,7 @@ if gpus:
 # NLTK persistent setup
 nltk_data_path = '/tmp/nltk_data'
 os.makedirs(nltk_data_path, exist_ok=True)
-required_nltk = ['stopwords', 'punkt']
+required_nltk = ['stopwords', 'punkt', 'punkt_tab']  # Added 'punkt_tab'
 for package in required_nltk:
     try:
         nltk.data.find(f'tokenizers/{package}')
