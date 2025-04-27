@@ -9,9 +9,13 @@ from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 
-# If needed:
-nltk.download('stopwords')
-nltk.download('punkt')
+# ===== NLTK Setup for Render =====
+nltk_data_path = os.path.join(os.getcwd(), 'nltk_data')
+os.makedirs(nltk_data_path, exist_ok=True)
+nltk.download('stopwords', download_dir=nltk_data_path)
+nltk.download('punkt', download_dir=nltk_data_path)
+nltk.download('punkt_tab', download_dir=nltk_data_path)  # Critical addition
+nltk.data.path.append(nltk_data_path)
 
 app = Flask(__name__)
 
