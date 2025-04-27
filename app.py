@@ -10,8 +10,8 @@ from nltk.tokenize import word_tokenize
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 # If needed:
-# nltk.download('stopwords')
-# nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('punkt')
 
 app = Flask(__name__)
 
@@ -87,8 +87,15 @@ def predict():
 
 
 
-# 4. Main entry point
+# # 4. Main entry point
+
+# if __name__ == "__main__":
+#     # Debug=True is handy during development. For production, consider removing debug mode.
+#     app.run(host="0.0.0.0", port=5000, debug=True)
+
+
+# ===== 4. Render-Specific Setup =====
+port = int(os.environ.get("PORT", 5000))  # Render sets $PORT
 
 if __name__ == "__main__":
-    # Debug=True is handy during development. For production, consider removing debug mode.
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="0.0.0.0", port=port, debug=False)  # debug=False in production
