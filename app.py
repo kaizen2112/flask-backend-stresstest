@@ -1,3 +1,24 @@
+# import os
+# import nltk
+# from flask import Flask, request, jsonify
+# import tensorflow as tf
+# import pickle
+# import numpy as np
+
+# from nltk.corpus import stopwords
+# from nltk.tokenize import word_tokenize
+# from tensorflow.keras.preprocessing.sequence import pad_sequences
+
+# # ===== NLTK Setup for Render =====
+# nltk_data_path = os.path.join(os.getcwd(), 'nltk_data')
+# os.makedirs(nltk_data_path, exist_ok=True)
+# nltk.download('stopwords', download_dir=nltk_data_path)
+# nltk.download('punkt', download_dir=nltk_data_path)
+# nltk.download('punkt_tab', download_dir=nltk_data_path)  # Critical addition
+# nltk.data.path.append(nltk_data_path)
+
+# app = Flask(__name__)
+
 import os
 import nltk
 from flask import Flask, request, jsonify
@@ -5,17 +26,29 @@ import tensorflow as tf
 import pickle
 import numpy as np
 
+# Memory optimization
+gpus = tf.config.experimental.list_physical_devices('GPU')
+if gpus:
+    try:
+        for gpu in gpus:
+            tf.config.experimental.set_memory_growth(gpu, True)
+    except RuntimeError as e:
+        print(e)
+
+# NLTK persistent solution
+nltk_data_path = '/tmp/nltk_data'
+os.makedirs(nltk_data_path, exist_ok=True)
+required_nltk = ['stopwords', 'punkt', 'punkt_tab']
+for package in required_nltk:
+    try:
+        nltk.data.find(f'tokenizers/{package}')
+    except LookupError:
+        nltk.download(package, download_dir=nltk_data_path)
+nltk.data.path.append(nltk_data_path)
+
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from tensorflow.keras.preprocessing.sequence import pad_sequences
-
-# ===== NLTK Setup for Render =====
-nltk_data_path = os.path.join(os.getcwd(), 'nltk_data')
-os.makedirs(nltk_data_path, exist_ok=True)
-nltk.download('stopwords', download_dir=nltk_data_path)
-nltk.download('punkt', download_dir=nltk_data_path)
-nltk.download('punkt_tab', download_dir=nltk_data_path)  # Critical addition
-nltk.data.path.append(nltk_data_path)
 
 app = Flask(__name__)
 
